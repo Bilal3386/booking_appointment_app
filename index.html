@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container">
-        <form id="my-form">
+        <form onsubmit="saveToLocalStorage(event)" id="my-form">
             <div class="headings">
           <h1>Book a call</h1>
           <p>Book a call slot and our representative will call you within 1hr of selected time. </p>
@@ -18,22 +18,25 @@
           <hr>
           <div class="msg"></div>
             <label for="name">Name:</label>
-            <input type="text" id="name" required>
+            <input type="text" id="name" name="userName" required>
             <label for="email">Email:</label>
-            <input type="text" id="email" required>
+            <input type="text" id="email" name="emailId" required>
             <label for="phone">Phone:</label>
-            <input type="text" id="phone" required>
+            <input type="tel" id="phone" name="phoneNumber" required>
             
             <div id="parent-call">
                 <label for="call">Time for call:</label>
                 <div id="call-child">
-                    <input type="date" id="date" required>
-                    <input type="time" id="appt" required>
+                    <input type="date" id="date" name="userDate"  required>
+                    <input type="time" id="appt" name="userTime" required>
                 </div>
             </div>
-          <input class="btn" type="submit" value="GET A CALL">
+            <button>GET A CALL</button>
+          <!-- <input class="btn" type="submit" value="GET A CALL"> -->
         </form>
-        <script src="main.js"></script>
+
+        <ul id="userList"></ul>
     </div>
+    <script src="main.js"></script>
 </body>
 </html>
