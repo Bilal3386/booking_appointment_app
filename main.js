@@ -14,25 +14,45 @@ function saveToLocalStorage(event)
     const date = event.target.date.value
     const time = event.target.appt.value
     const obj = {name, email, phoneNumber, date, time}
-    localStorage.setItem(obj.email, JSON.stringify(obj))
-    showNewUserOnScreen(obj)
+    axios.post('https://crudcrud.com/api/4d84201088994aa19a4c372a437280c5/appointmentData', obj)
+    .then((res)=>(
+        console.log(res),
+        showNewUserOnScreen(res.data)
+        ))
+    //localStorage.setItem(obj.email, JSON.stringify(obj))
 }
 
 
 
 window.addEventListener('DOMContentLoaded', () =>
 {
-    const localStorageObj = localStorage
-    const localStorageKeys = Object.keys(localStorageObj)
+    axios.get('https://crudcrud.com/api/4d84201088994aa19a4c372a437280c5/appointmentData')
+    .then(res =>
+        {
+            const localStorageObj = res.data
+            //console.log(localStorageObj)
+            const localStorageKeys = Object.keys(localStorageObj)
+            //console.log(localStorageKeys)
+            for(var i=0; i<localStorageKeys.length; i++){
+            const key = localStorageKeys[i]
+            const userDetailsString = localStorageObj[key];
+            const userDetailsObj = userDetailsString;
+            showNewUserOnScreen(userDetailsObj);
+            //console.log(userDetailsObj.email)
+        }
+        })
+    .catch(err => console.log(err))
+    // const localStorageObj = localStorage
+    // const localStorageKeys = Object.keys(localStorageObj)
 
-    for(var i=0; i<localStorageKeys.length; i++)
-    {
-        const key = localStorageKeys[i]
-        const userDetailsString = localStorageObj[key];
-        const userDetailsObj = JSON.parse(userDetailsString);
-        showNewUserOnScreen(userDetailsObj);
-        console.log(userDetailsObj.email)
-    }
+    // for(var i=0; i<localStorageKeys.length; i++)
+    // {
+    //     const key = localStorageKeys[i]
+    //     const userDetailsString = localStorageObj[key];
+    //     const userDetailsObj = JSON.parse(userDetailsString);
+    //     showNewUserOnScreen(userDetailsObj);
+    //     console.log(userDetailsObj.email)
+    //}
 })
 // {
     
