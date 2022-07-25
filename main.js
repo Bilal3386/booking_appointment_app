@@ -8,11 +8,11 @@
 function saveToLocalStorage(event)
 {
     event.preventDefault()
-    const name = event.target.userName.value
-    const email = event.target.emailId.value
-    const phoneNumber = event.target.phoneNumber.value
-    const date = event.target.userDate.value
-    const time = event.target.userTime.value
+    const name = event.target.name.value
+    const email = event.target.email.value
+    const phoneNumber = event.target.phone.value
+    const date = event.target.date.value
+    const time = event.target.appt.value
     const obj = {name, email, phoneNumber, date, time}
     localStorage.setItem(obj.email, JSON.stringify(obj))
     showNewUserOnScreen(obj)
@@ -21,18 +21,19 @@ function saveToLocalStorage(event)
 
 
 window.addEventListener('DOMContentLoaded', () =>
- {
+{
     const localStorageObj = localStorage
     const localStorageKeys = Object.keys(localStorageObj)
 
-    for(var i =0; i< localStorageKeys.length; i++){
+    for(var i=0; i<localStorageKeys.length; i++)
+    {
         const key = localStorageKeys[i]
         const userDetailsString = localStorageObj[key];
         const userDetailsObj = JSON.parse(userDetailsString);
         showNewUserOnScreen(userDetailsObj);
+        console.log(userDetailsObj.email)
     }
- }
-)
+})
 // {
     
 
@@ -54,7 +55,11 @@ window.addEventListener('DOMContentLoaded', () =>
 // }
 
 function showNewUserOnScreen(user) {
-
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value ='';
+    document.getElementById('date').value = '';
+    document.getElementById('appt').value = '';
     
     if(localStorage.getItem(user.email) !== null)
     {
@@ -62,17 +67,13 @@ function showNewUserOnScreen(user) {
     }
     const parentNode = document.getElementById('userList');
                 const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
-                                        <button style="margin: 10px 2px; background: green" onclick=editUser('${user.name}', '${user.email}', '${user.phoneNumber}', '${user.date}', '${user.time}')>Edit User</button>
-                                        <button style="margin: 10px 2px" onclick=deleteUser(' ${user.email}')>Delete User</button>
-                                     </li>`
+                                        <button style="margin: 10px 2px; background: green" onclick=editUser('${user.email}','${user.name}','${user.phoneNumber}','${user.time}','${user.date}')>Edit User</button>
+                                        <button style="margin: 10px 2px" onclick=deleteUser('${user.email}')>Delete User</button>
+                                        </li>`
                 parentNode.innerHTML = parentNode.innerHTML + childHTML;
                 document.querySelector('.container').appendChild(parentNode)
 
-                // document.getElementById('email').value = '';
-                // document.getElementById('username').value = '';
-                // document.getElementById('phone').value ='';
-                // document.getElementById('date').value = '';
-                // document.getElementById('appt').value = '';
+                
     // let data = document.createElement('li')
     // data.className = "details"
     // let obj_details = JSON.parse(localStorage.getItem(obj.email))
@@ -95,13 +96,15 @@ function showNewUserOnScreen(user) {
 }
 // edit user
 
-function editUser(name, email, phoneNumber, date, time)
+function editUser(email, name, phone, time, date)
 {
-    document.getElementById('name').value = name;
+    
     document.getElementById('email').value = email;
-    document.getElementById('phone').value = phoneNumber;
+    document.getElementById('name').value = name;
+    document.getElementById('phone').value = phone;
     document.getElementById('date').value = date; 
     document.getElementById('appt').value = time;
+    console.log(time)
     deleteUser(email)
 }
 
@@ -109,6 +112,7 @@ function editUser(name, email, phoneNumber, date, time)
 // delete user
 function deleteUser(obj) {
     localStorage.removeItem(obj)
+    //console.log(obj)
     removeUserFromScreen(obj)
 }
 
