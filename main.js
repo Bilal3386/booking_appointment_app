@@ -84,14 +84,14 @@ function showNewUserOnScreen(user) {
     
     
 
-            if(user._id !== null )
+            if(user._id !== undefined )
             {
                 console.log(user._id)
                 removeUserFromScreen(user._id)
             }
     const parentNode = document.getElementById('userList');
                 const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
-                                        <button style="margin: 10px 2px; background: green" onclick=editUser('${user.email}','${user.name}','${user.phoneNumber}','${user.time}','${user.date}')>Edit User</button>
+                                        <button style="margin: 10px 2px; background: green" onclick=editUser('${user.email}','${user.name}','${user.phoneNumber}','${user.time}','${user.date}','${user._id}')>Edit User</button>
                                         <button style="margin: 10px 2px" onclick=deleteUser('${user._id}')>Delete User</button>
                                         </li>`
                 parentNode.innerHTML = parentNode.innerHTML + childHTML;
@@ -120,7 +120,14 @@ function showNewUserOnScreen(user) {
 }
 // edit user
 
-function editUser(email, name, phone, time, date)
+axios.put(`https://crudcrud.com/api/b648dec734034a67b17c28ee9fd65674/appointmentData/${userId}`)
+.then(res =>
+    {
+        editUser(email, name, phone, time, date, userId)
+    })
+    .catch(err => console.log(err))
+
+function editUser(email, name, phone, time, date, userId)
 {
     
     document.getElementById('email').value = email;
@@ -128,8 +135,8 @@ function editUser(email, name, phone, time, date)
     document.getElementById('phone').value = phone;
     document.getElementById('date').value = date; 
     document.getElementById('appt').value = time;
-    console.log(time)
-    deleteUser(email)
+    console.log(userId)
+    deleteUser(userId)
 }
 
 
