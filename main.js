@@ -14,7 +14,7 @@ function saveToLocalStorage(event)
     const date = event.target.date.value
     const time = event.target.appt.value
     const obj = {name, email, phoneNumber, date, time}
-    axios.post('https://crudcrud.com/api/4d84201088994aa19a4c372a437280c5/appointmentData', obj)
+    axios.post('https://crudcrud.com/api/b648dec734034a67b17c28ee9fd65674/appointmentData', obj)
     .then((res)=>(
         console.log(res),
         showNewUserOnScreen(res.data)
@@ -26,18 +26,18 @@ function saveToLocalStorage(event)
 
 window.addEventListener('DOMContentLoaded', () =>
 {
-    axios.get('https://crudcrud.com/api/4d84201088994aa19a4c372a437280c5/appointmentData')
+    axios.get('https://crudcrud.com/api/api/b648dec734034a67b17c28ee9fd65674/appointmentData')
     .then(res =>
         {
-            const localStorageObj = res.data
-            //console.log(localStorageObj)
-            const localStorageKeys = Object.keys(localStorageObj)
+            // const localStorageObj = res.data
+            // //console.log(localStorageObj)
+            // const localStorageKeys = Object.keys(localStorageObj)
             //console.log(localStorageKeys)
-            for(var i=0; i<localStorageKeys.length; i++){
-            const key = localStorageKeys[i]
-            const userDetailsString = localStorageObj[key];
-            const userDetailsObj = userDetailsString;
-            showNewUserOnScreen(userDetailsObj);
+            for(var i=0; i<res.data.length; i++){
+            // const key = localStorageKeys[i]
+            // const userDetailsString = localStorageObj[key];
+            // const userDetailsObj = JSON.parse(userDetailsString);
+            showNewUserOnScreen(res.data[i]);
             //console.log(userDetailsObj.email)
         }
         })
