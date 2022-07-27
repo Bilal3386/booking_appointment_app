@@ -26,7 +26,7 @@ function saveToLocalStorage(event)
 
 window.addEventListener('DOMContentLoaded', () =>
 {
-    axios.get('https://crudcrud.com/api/api/b648dec734034a67b17c28ee9fd65674/appointmentData')
+    axios.get('https://crudcrud.com/api/b648dec734034a67b17c28ee9fd65674/appointmentData')
     .then(res =>
         {
             // const localStorageObj = res.data
@@ -81,14 +81,18 @@ function showNewUserOnScreen(user) {
     document.getElementById('date').value = '';
     document.getElementById('appt').value = '';
     
-    if(localStorage.getItem(user.email) !== null)
-    {
-        removeUserFromScreen(user.email)
-    }
+    
+    
+
+            if(user._id !== null )
+            {
+                console.log(user._id)
+                removeUserFromScreen(user._id)
+            }
     const parentNode = document.getElementById('userList');
                 const childHTML = `<li id=${user.email}> ${user.name} - ${user.email}
                                         <button style="margin: 10px 2px; background: green" onclick=editUser('${user.email}','${user.name}','${user.phoneNumber}','${user.time}','${user.date}')>Edit User</button>
-                                        <button style="margin: 10px 2px" onclick=deleteUser('${user.email}')>Delete User</button>
+                                        <button style="margin: 10px 2px" onclick=deleteUser('${user._id}')>Delete User</button>
                                         </li>`
                 parentNode.innerHTML = parentNode.innerHTML + childHTML;
                 document.querySelector('.container').appendChild(parentNode)
@@ -131,9 +135,12 @@ function editUser(email, name, phone, time, date)
 
 // delete user
 function deleteUser(obj) {
-    localStorage.removeItem(obj)
+    axios.delete(`https://crudcrud.com/api/b648dec734034a67b17c28ee9fd65674/appointmentData/${obj}`)
+    .then(res => removeUserFromScreen(res))
+    .catch(err => console.log(err))
+    //localStorage.removeItem(obj)
     //console.log(obj)
-    removeUserFromScreen(obj)
+    //removeUserFromScreen(obj)
 }
 
 function removeUserFromScreen(obj)
@@ -144,7 +151,7 @@ function removeUserFromScreen(obj)
     if(childNodeToBeDeleted)
     {
         parentNode.removeChild(childNodeToBeDeleted)
-    }
+    }  
 }
 
 
